@@ -5,3 +5,4 @@ outputs/
 params.rds
 trucksim.Rproj
 Rmd/nc_test_figs
+nc_test.html
