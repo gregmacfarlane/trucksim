@@ -21,8 +21,8 @@
   <module name="controler">
     <param name="outputDirectory" value="&OUTBASE;"/>
     <param name="firstIteration" value="0"/>
-    <param name="lastIteration" value="5"/>
-    <param name="writeSnapshotsInterval" value="0"/>
+    <param name="lastIteration" value="50"/>
+    <param name="writeSnapshotsInterval" value="50"/>
     <param name="runId" value="nc_test"/>
   </module> 
   
