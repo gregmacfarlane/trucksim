@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config SYSTEM "http://www.matsim.org/files/dtd/config_v1.dtd"
+	[
+		<!ENTITY OUTBASE "./nc_outputs/">
+	]
+>
+
+<config>
+ 
+   <!-- Input Options -->
+  <module name="plans">
+	<param name="inputPlansFile" value="../trucksim_disagg/plans.xml"/>
+  </module>
+
+  <module name="network">
+	<param name="inputNetworkFile" value="../trucksim_network/nc_network.xml" />
+  </module>
+
+
+  <!-- Scenario Options -->
+  <module name="controler">
+    <param name="outputDirectory" value="&OUTBASE;"/>
+    <param name="firstIteration" value="0"/>
+    <param name="lastIteration" value="5"/>
+    <param name="writeSnapshotsInterval" value="0"/>
+    <param name="runId" value="nc_test"/>
+  </module> 
+  
+  <module name="linkStats"> 
+    <param name="writeLinkStatsInterval" value="10"/> 
+  </module>
+	
+  <module name="global">
+	<param name="coordinateSystem" value="EPSG:2818"/>
+	<param name="numberOfThreads" value="4"/>
+	<param name="randomSeed" value="1"/>
+  </module>
+
+
+	<!-- Simulation Parameters -->	
+	
+	<module name="qsim">
+		<!-- 
+			We are using a 3% sample of trucks, so we need to adjust the 
+			network capacity accordingly.
+		 -->
+		<param name="flowCapacityFactor" value="0.03"/>	
+		<param name="storageCapacityFactor" value="0.03"/>
+	</module>
+	
+	
+	<module name="strategy" >
+		<param name="maxAgentPlanMemorySize" value="5"/>
+		<!-- 
+			These are the replanning modules that run after each iteration to
+			try and improve the individual truck's score. Eventually we will 
+			want to put the functionality to add a rest stop; But
+			for now the only thing we want a truck to do is reroute or adjust its
+			departure time by a few hours.
+			
+			It is not necessary that the probabilities of the replanning modules
+			sum to 1, because each person has independent probability of selecting
+			each module. For instance, a truck could reroute and reschedule, or do
+			neither, with each iteration.
+		 -->
+		<param name="Module_1" value="ChangeExpBeta"/>
+		<param name="ModuleProbability_1" value="0.3"/>
+		<param name="Module_2" value="ReRoute" />
+		<param name="ModuleProbability_2" value="0.3" />
+		<!-- test this later
+		<param name="Module_2" value="TimeAllocationMutator" />
+		<param name="ModuleProbability_2" value="0.1"/>
+		 -->
+	</module>
+
+	<!-- This sets the maximum change in departure time. You should use 
+	     it after you figure out how to run the replanning steps and are
+	     comfortable running many dozens of iterations.
+	<module name="TimeAllocationMutator">
+		<param name="mutationRange" value="7200"/>
+	</module>
+	 -->
+
+	<module name="planCalcScore">
+		
+		<param name="BrainExpBeta" value="1.0" />
+		
+		<param name="lateArrival" value="-18.0" />
+		<param name="traveling" value="-6.0" /> 
+		
+		<param name="performing" value="6.0" />
+		<param name="earlyDeparture" value="0" />
+		<param name="waiting" value="0" />
+		
+		<!-- 
+			MATSim crashed if I didn't set these parameters, 
+			but I really don't know what they do. I'll need to get 
+			a little bit deeper into the documentation, I guess.
+			It also seems weird to set them in a multiple-day simulation.
+		 -->
+		<param name="activityType_0" value="dummy"/>
+		<param name="activityTypicalDuration_0" value="24:00:00"/>
+		<param name="activityEarliestEndTime_0" value="undefined"/>
+		<param name="activityLatestStartTime_0" value="undefined"/>
+		<param name="activityMinimalDuration_0" value="undefined"/>
+		<param name="activityPriority_0" value="1.0"/>
+	</module>
+  
+
+</config>
