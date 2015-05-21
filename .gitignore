@@ -1,3 +1,7 @@
 /bin/
 *.swp
 outputs/
+.Rproj.user
+params.rds
+trucksim.Rproj
+Rmd/nc_test_figs

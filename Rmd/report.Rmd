@@ -1,0 +1,97 @@
+```{r setup, echo=FALSE, message=FALSE}
+library(knitr)
+params <- readRDS("params.rds")
+
+opts_chunk$set(
+  echo = FALSE,
+  fig.keep = TRUE,  
+  fig.path = paste(params$run_id, "_figs/", sep = "")
+)
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+simulation_path <- paste("../outputs/", params$out_folder, "/",
+                         sep = "")
+```
+
+---
+title: "`r params$run_id`"
+author: "Greg Macfarlane"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+
+```{r functions}
+toSeconds <- function(x){
+   if (!is.character(x)) stop("x must be a character string of the form H:M:S")
+   if (length(x)<=0)return(x)
+
+   unlist(
+      lapply(x,
+         function(i){
+            i <- as.numeric(strsplit(i,':',fixed=TRUE)[[1]])
+            if (length(i) == 3) 
+               i[1]*3600 + i[2]*60 + i[3]
+            else if (length(i) == 2) 
+               i[1]*60 + i[2]
+            else if (length(i) == 1) 
+               i[1]
+         }  
+      )  
+   )
+}
+```
+
+
+## Run Time
+```{r run_time_figure}
+stopwatch <- read.delim(
+  file.path(simulation_path, 
+            paste(params$run_id, ".stopwatch.txt", sep = ""),
+            fsep = ""),  
+  stringsAsFactors = FALSE) %>%
+  mutate(
+    replanning = ifelse(replanning == "", 0, toSeconds(replanning)), 
+    mobsim = ifelse(mobsim == "", 0, toSeconds(mobsim)), 
+    dump.all.plans = ifelse(dump.all.plans == "", 0,
+                            toSeconds(dump.all.plans)), 
+    iteration = ifelse(iteration == "", 0, toSeconds(iteration))
+  ) %>% 
+  select(Iteration, replanning, mobsim, dump.all.plans) %>%
+  gather(variable, value, -Iteration)
+
+totaltime <- round(sum(stopwatch$value)/3600, 2)
+
+ggplot(stopwatch, aes(x = Iteration, y = value/60, fill = variable)) + 
+  geom_bar(stat="identity") + ylab(paste("Execution time [minutes]; total:", 
+                                         totaltime, " hours")) + 
+  scale_fill_brewer("Module", type = "qual", palette = "Dark2")
+
+```
+
+## Convergence
+```{r convergence_figure}
+scorestats <- read.delim(
+  file.path(simulation_path, 
+            paste(params$run_id, ".scorestats.txt", sep = ""),
+            fsep = ""),  
+  stringsAsFactors = FALSE) %>%
+  mutate(AverageBest = avg..BEST, AverageWorst = avg..WORST, 
+         AverageExecuted = avg..EXECUTED, Iteration = ITERATION) %>%
+  select(Iteration, AverageBest, AverageWorst, AverageExecuted) %>%
+  gather(variable, value, -Iteration)
+
+ggplot(scorestats, aes(x = Iteration, y = value, color = variable)) + 
+  geom_line() + ylab("Score") + 
+  scale_color_brewer("Score Type", type = "qual", palette = "Dark2")
+
+```
+
+
+## Session Info
+```{r info}
+sessionInfo()
+```
+
