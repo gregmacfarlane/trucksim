@@ -18,4 +18,4 @@ A set of the `matsim-0.6.0` Java libraries is included in this repository.
 ### Attribution
 This code is open to the public. We request that all derivative work please cite
 
-  > Macfarlane, G.S. and Donnelly, R. (2015). A national simulation of freight flows.
+  > Macfarlane, G.S. and Donnelly, R. (2015). A national simulation of long-distance freight movements.
