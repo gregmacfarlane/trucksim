@@ -3,7 +3,7 @@
  
 JFLAGS = -g
 JC = javac
-CP = -cp libs/*:java/bin/
+CP = -cp java/libs/*:java/bin/
 
 srcdir = java/src
 bindir = java/bin
