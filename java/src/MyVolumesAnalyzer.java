@@ -1,6 +1,3 @@
-package trucksim;
-
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -105,20 +102,20 @@ public class MyVolumesAnalyzer implements LinkLeaveEventHandler, PersonDeparture
 	/**
 	 * @param linkId
 	 * @param mode
-	 * @return Array containing the number of vehicles using the specified mode leaving the link 
+	 * @return Array containing the number of vehicles using the specified mode leaving the link
 	 *  	<code>linkId</code> per time bin, starting with time bin 0 from 0 seconds to (timeBinSize-1)seconds.
 	 */
 	public int[] getVolumesForLink(final Id linkId, String mode) {
 		if (observeModes) {
 			Map<String, int[]> modeVolumes = this.linksPerMode.get(linkId);
 			if (modeVolumes != null) return modeVolumes.get(mode);
-		} 
+		}
 		return null;
 	}
 	
 	/*
 	 * This procedure is only working if (hour % timeBinSize == 0)
-	 * 
+	 *
 	 * Example: 15 minutes bins
 	 *  ___________________
 	 * |  0 | 1  | 2  | 3  |
@@ -128,11 +125,11 @@ public class MyVolumesAnalyzer implements LinkLeaveEventHandler, PersonDeparture
 	 * | 	  hour 0	   |
 	 * |___________________|
 	 * 0   				  3600
-	 * 
+	 *
 	 * hour 0 = bins 0,1,2,3
 	 * hour 1 = bins 4,5,6,7
 	 * ...
-	 * 
+	 *
 	 * getTimeSlotIndex = (int)time / this.timeBinSize => jumps at 3600.0!
 	 * Thus, starting time = (hour = 0) * 3600.0
 	 */

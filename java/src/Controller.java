@@ -1,7 +1,6 @@
 /**
- * 
+ *
  */
-package trucksim;
 
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
@@ -14,7 +13,7 @@ import org.matsim.core.controler.Controler;
 public class Controller {
 
 	/**
-	 * @param args 
+	 * @param args
 	 * First argument should be the name of the xml configuration file.
 	 */
 	public static void main(String[] args) {

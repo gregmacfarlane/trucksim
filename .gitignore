@@ -1,4 +1,4 @@
-/bin/
+java/bin/
 *.swp
 outputs/
 .Rproj.user

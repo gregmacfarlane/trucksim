@@ -1,4 +1,3 @@
-package trucksim;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -22,11 +21,11 @@ public class VolumeCalculator {
 	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 		// TODO Auto-generated method stub
 		/*
-		 *  Inputs defined with @param statements above. 
-		 *  
-		 *  Also, reads the network from the scenario configuration. 
+		 *  Inputs defined with @param statements above.
+		 *
+		 *  Also, reads the network from the scenario configuration.
 		 *  I can't actually tell that the network is necessary, but
-		 *  `net` is a required input to `MyVolumesAnalyzer`, so I'm 
+		 *  `net` is a required input to `MyVolumesAnalyzer`, so I'm
 		 *  including it.
 		 */
 		String configFile = args[0];
@@ -43,10 +42,10 @@ public class VolumeCalculator {
 		
 		/*
 		 * Here I create an instance of MyVolumesAnalyzer, which is simply
-		 * VolumesAnalyzer from the org.matsim.analysis package but edited 
-		 * to permit an analysis period longer than 24 hours. For now I cut 
+		 * VolumesAnalyzer from the org.matsim.analysis package but edited
+		 * to permit an analysis period longer than 24 hours. For now I cut
 		 * this off at seven days, but we can edit if necessary.
-		 * 
+		 *
 		 */
 		
 		EventsManager eventsManager = EventsUtils.createEventsManager();
@@ -61,15 +60,15 @@ public class VolumeCalculator {
 	
 		/*
 		 * Writing the output.
-		 * 
+		 *
 		 * I'm sure that someone with better Java skills would be able to
 		 * make this lots and lots cleaner, but it works! Miraculously!
-		 * 
+		 *
 		 * Basically, I create a csv file with links in the rows and by-
 		 * period volumes in the columns. The first chunk creates the header.
-		 * The second set grabs all of the linkIds from the EventHandler, 
+		 * The second set grabs all of the linkIds from the EventHandler,
 		 * and prints the linkIds and the period volumes.
-		 * 
+		 *
 		 */
 		// open filestream
 		PrintWriter writer = new PrintWriter(outputFile, "UTF-8");

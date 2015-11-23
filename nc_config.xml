@@ -13,7 +13,7 @@
   </module>
 
   <module name="network">
-	<param name="inputNetworkFile" value="../trucksim_network/nc_network.xml" />
+	<param name="inputNetworkFile" value="../trucksim_network/usa_network.xml" />
   </module>
 
 
@@ -21,8 +21,8 @@
   <module name="controler">
     <param name="outputDirectory" value="&OUTBASE;"/>
     <param name="firstIteration" value="0"/>
-    <param name="lastIteration" value="50"/>
-    <param name="writeSnapshotsInterval" value="50"/>
+    <param name="lastIteration" value="20"/>
+    <param name="writeSnapshotsInterval" value="20"/>
     <param name="runId" value="nc_test"/>
   </module> 
   
@@ -41,11 +41,11 @@
 	
 	<module name="qsim">
 		<!-- 
-			We are using a 3% sample of trucks, so we need to adjust the 
+			We are using a 10% sample of trucks, so we need to adjust the 
 			network capacity accordingly.
 		 -->
-		<param name="flowCapacityFactor" value="0.03"/>	
-		<param name="storageCapacityFactor" value="0.03"/>
+		<param name="flowCapacityFactor" value="0.1"/>	
+		<param name="storageCapacityFactor" value="0.1"/>
 	</module>
 	
 	
